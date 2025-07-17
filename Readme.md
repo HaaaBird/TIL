@@ -1,4 +1,4 @@
-# Today I Learned
+# Today I Learned Wiki
 ---
 으악 배웁시다.
 
