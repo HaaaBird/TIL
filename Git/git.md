@@ -49,7 +49,20 @@ git add Readme.md
 #### 질문. 진짜 엄격하게 파일이 복사된건가? 아니면 그냥 idx만 남긴건가? 
 #### GPT한테 들은 답: blob(블롭)으로 저장한다.
 - blob 이 뭐야? 
-- blob 은 SHA-1 해시 기반의 객체로 저장된 압축 파일 비슷한 것.
+- blob 은 SHA-1 해시값.
 - git add 파일명 -> 하게 될 경우 .git/object 에 저렇게 압축해서 때려박아두고
 - Staging Area(.git/index)에는 걍 이 파일이 .git/objec 에 저장되어 있는 저 blob을 가리킨다는 참조만 기록(메타데이터만)
-- SHA-1 Hash -> 파일 내용을 기반으로 만든 16진법, 40자짜리 암호키. 복원은 불가능함. 다만 내용이 한글짜라도 바뀌면 hash값이 완전히 바뀌기 때문에 변경관리에 아주 큰 장점이 있음. 이 성격 이용하기 위해서 SHA-1 사용
+- SHA-1 Hash -> 파일 내용을 기반으로 만든 16진법, 40자짜리 해쉬키. 복원은 불가능. 다만 내용이 한글짜라도 바뀌면 hash값이 완전히 바뀌기 때문에 변경관리에 아주 큰 장점이 있음. 이 성격 이용하기 위해서 SHA-1 사용
+### 5.2 Commit 을 해 보자
+- git commit -m "commit name" 를 하면 처음엔 안됨. 
+- git 관리자 설정이 된게 아니기 때문 config 설정 필요
+```bash
+git config --global user.email 메일주소@.com
+git config --global user.name username
+```
+- 을 해 줘야 한다. 저기서 global, local 로 설정 가능
+- global 을 하면 pc 전체, 어디서든 git을 썼을때 config 가 저 값으로 나감. 다시 설정할 필요 x 사용자 홈 디텍로리 기준으로 gitconfig 가 저장됨
+- local로 하면 현재 git 으로 잡아둔 master 설정된 영역 내에서만 config 값으로 동작. 
+### 5.3 commit 을 수정해보자.
+- commit 된 내용도 수정 가능. 왜냐면 commit 을 한다는건 원본 파일 압축 + 변경 이력 등을 저장하는 과정. 
+- amend 마지막 commit 을 수정해도 좋다. 아무튼 그렇다.
