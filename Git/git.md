@@ -60,9 +60,16 @@ git add Readme.md
 git config --global user.email 메일주소@.com
 git config --global user.name username
 ```
-- 을 해 줘야 한다. 저기서 global, local 로 설정 가능
+- 을 해 줘야 한다. 저기서 global, local 로 설정` 가능
 - global 을 하면 pc 전체, 어디서든 git을 썼을때 config 가 저 값으로 나감. 다시 설정할 필요 x 사용자 홈 디텍로리 기준으로 gitconfig 가 저장됨
 - local로 하면 현재 git 으로 잡아둔 master 설정된 영역 내에서만 config 값으로 동작. 
 ### 5.3 commit 을 수정해보자.
-- commit 된 내용도 수정 가능. 왜냐면 commit 을 한다는건 원본 파일 압축 + 변경 이력 등을 저장하는 과정. 
-- amend 마지막 commit 을 수정해도 좋다. 아무튼 그렇다.
+- commit 된 내용도 수정 가능. 단 그냥 -m으로 지정한 메시지 정도 수정 가능. 
+- 변경되면 hash 값도 바뀜. 이거 확인 할 것. -m으로 들어간 메시지도 해싱하는 범위내라는 뜻.
+### 5.5 GitHub와 연결
+- GitHub에 먼저 가입. Repository 생성하고 url 따서 연결
+- SSH연결은 캠퍼스내 SSH 권한 안줘서 못함 https 주소 따서
+```bash
+git remote add origin [URL]
+```
+
