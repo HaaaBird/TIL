@@ -2,7 +2,9 @@
     최종 수정일자: 2025-07-17 17:04
 ---
 ## 1. git 이란 무엇인가? 
-git 은 리눅스 개발자가 만든 버전 관리 시스템  
+git 은 리눅스 개발자가 만든 버전 관리 시스템
+    - Git -> 내 컴퓨터에서 분산관리 할 수 있도록 해 주는 소프트웨어
+    - GitHub, GitLab -> git을 온라인상에서 관리할 수 있게 해 주는거.
 ## 2. 분산 개념
 분산 관리 -> 원본을 서버에서 저장하고, 각 로컬 PC에 클론을 배치.  
 작업자는 클론 기반으로 작업 및 수정  
@@ -66,10 +68,41 @@ git config --global user.name username
 ### 5.3 commit 을 수정해보자.
 - commit 된 내용도 수정 가능. 단 그냥 -m으로 지정한 메시지 정도 수정 가능. 
 - 변경되면 hash 값도 바뀜. 이거 확인 할 것. -m으로 들어간 메시지도 해싱하는 범위내라는 뜻.
-### 5.5 GitHub와 연결
+### 5.5 GitHub와 연결과 push
 - GitHub에 먼저 가입. Repository 생성하고 url 따서 연결
 - SSH연결은 캠퍼스내 SSH 권한 안줘서 못함 https 주소 따서
 ```bash
 git remote add origin [URL]
 ```
-
+- 연결했으니 push
+```bash
+git push origin master
+git push [원격저장소 이름] [branch 이름]
+```
+ - origin -> 내가 github에서 repository 를 만들면 기본적으로 지정되는 이름
+    - 원격 저장소 이름. origin = my_url의 개념이라고 이해하면 편함. 
+    - git push origin 대신 -> github_url 넣어도 동작함
+    ```bash
+    git push https://github.com/HaaaBird/TIL.git master
+    ```
+ - master -> Branch 이름. 
+    - branch -> 나뭇가지. 메인 프로젝트에서 뻗어나갈 갈래를 말함
+    - 왜 근데 master라고 입력? -> 이것도 내가 정한거. 그냥 기본 root 를 master로 정한것.
+    - 기능별로 branch 를 나눠 사용하는것도 가능.
+### 5.6 GitHub 에서 가져오기 (pull)
+- 프로젝트 가져올땐 마찬가지로
+```bash
+git clone [url]
+```
+- 로 가져오는 것. public 은 그냥 가져 올 수 있음. private 는 별도 인증 필요
+- 연결 후에 update는
+```bash
+git pull origin master
+git pull [name] [branch]
+```
+### 5.7 gitignore
+- 프로젝트 내 모든 내용을 공유하면 안됨
+- 예를 들어서 api 인증키, 프로젝트 설정파일 등은 공유하면 위험하거나 필요가 없음.
+- 그래서 이것들을 예외처리 해 주는 것이 gitignore
+- 설정법은 간단. 프로젝트 root 에 .gitignore 파일 만들고 공유하지 않을 파일 넣으면 됨
+- [gitignore](www.gitignore.io) 라는 곳에서 기본 제거할 파일 목록 제공
