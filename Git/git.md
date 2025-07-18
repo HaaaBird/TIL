@@ -59,8 +59,8 @@ git add Readme.md
 - git commit -m "commit name" 를 하면 처음엔 안됨. 
 - git 관리자 설정이 된게 아니기 때문 config 설정 필요
 ```bash
-git config --global user.email 메일주소@.com
-git config --global user.name username
+git config --global user.email [메일주소@.com]
+git config --global user.name [username]
 ```
 - 을 해 줘야 한다. 저기서 global, local 로 설정` 가능
 - global 을 하면 pc 전체, 어디서든 git을 썼을때 config 가 저 값으로 나감. 다시 설정할 필요 x 사용자 홈 디텍로리 기준으로 gitconfig 가 저장됨
@@ -113,7 +113,7 @@ git pull [name] [branch]
     - git remote add 는 내가 하는거. 내가 프로젝트 시작할때 파일과 repository 만들고 연결하는거
     - git clone 은 가져오는거. git 에 있는걸 땡겨오는거. 
     - 즉 원본이 나로 부터 출발하는거냐, 원본이 github로부터 오는것이냐의 차이.
-## 6. GitHub에 올라간걸 수정하는 방법
+## 6. Commit 된 것들을 수정하는 방법
 - 기본사항
     - push한걸 수정하는건, 같이 일하는 동료들에게 큰 엿을 먹일 수 있는 행위다!
     - 상당히 잘못된 행동. 기술적으로 가능하나, 같이 일하는 코드라면 이게 참 골치 아파질 수 있는 일임을 인지하고 해야 한다.
@@ -164,4 +164,27 @@ git revert --no--commit [hash]
 - revert 는 새로운 commit 을 만듬. 순방향
 - git reset 은 역방향. 그 때로 돌아감. 매우 무서운 기능
     - a -> b -> c -> d -> e 일때, c로 돌아간다면? 
-    - d, e 는 없는 일로 됨. 걍 현재가 c
+    - d, e 는 없는 일로 됨. **삭제됨** 걍 현재가
+    - 절때 push 후 reset 하려고 하지 말자. 일단 github에서 거절한다. git에는 이미 다 commit 이력이 남아있기 때문.'
+    ```bash
+    git revert [option] <commit id>
+    ```
+    - revert 에는 없던 option이 왜 생겼나?
+        - reset 은 과거로 돌아가는 일이기 일부 행위가 때문에 없었던 일이 되는것. 
+        - 예를 들어 a -> b -> c 인 상태에서 a로 돌아간다면? b, c는 어찌할거냐?
+        - 저 없어질 두개 commit 대해서 어찌할지에 대해 option을 통해서 조정함
+    - reset의 3개 옵션
+        - --soft
+            - 파일이 남음. commit 은 없어지나, 파일은 살아있게 됨.
+            - b, c가 Staging Area에는 존재한다는 뜻.다음 commit 하면 들어감.
+        - --mixed(기본옵션, option에 공란 하면 이걸로함.)
+            - 파일이 남음. commit 이력도 없어짐
+            - 동시에 Staging Area 에서도 없어짐. Add 된게 아니기 때매 다시 commit 하면 파일이 추가되지 않음.
+
+        - --hard
+            - 파일이 날라감. 이력 사라지는건 당연하고, 파일도 날라가버림.
+            - 마찬가지로 Staging Area에서도 다 지워짐. 파일도 이력도 다 지워지는것. 
+
+## untracted(add 되지 않은)건 뭘 하던 상관없음
+    
+
