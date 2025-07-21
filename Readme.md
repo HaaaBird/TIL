@@ -2,7 +2,7 @@
 ---
 위키라고 할 껏 까지 있나 싶지만...
 ## 코딩관련
-[Git](Git/git.md)
+[Git](Git/git.md)  
 [Python_1일차](Python/Python.md)
 
 ## 강의 들은거
