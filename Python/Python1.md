@@ -1328,26 +1328,348 @@ print(sqare2) # [1,4,9,16,25]
 ## 1. 모듈
 - 한 파일로 묶인 변수와 함수의 모음. 특정한 기능을 하는 코드가 작성된 파이썬 파일
 - 다른 프로그래머가 만들어 둔 변수나 함수들의 모음을 '모듈' 이라고도 함
+### 1.1 모듈 활용
 - 모듈 예시
     - math 내장 모듈. 파이썬이 미리 정해 둔 수학 관련 변수와 함수가 작성된 모듈
 ```python
+# import 문 사용 예시
+import math
+print(math.pi) # 3.14159...
+print(math.sqrt(4)) # 2.0
 
+# from 문 사용 예시
+from math import pi, sqrt
+print(pi)
+print(sqrt(4)) 
 ```
-### 1.1 모듈 활용
+- from 사용의 장단
+  - 장점
+    - 코드가 짧고 간단해짐
+  - 단점
+    - 정의된 모듈의 위치를 알기 어려워져 명시적이지 않을 수 있음
+    - 사용자가 선언한 변수 또는 함수와 겹치게 되어 모듈에서 정의한 값이나 동작이 이루어지지 않을 수 있음.
+```python
+from math import sqrt
+math_result = sqrt(16) # float 4.0
+def sqrt(x):
+    return str(x**0.5)
+my_result = sqrt(16) # str 4.0
+```
+- from 절 사용시 주의사항
+  - 서로 다른 모듈에서 import 된 변수나 함수의 이름이 같은 경우 충돌 발생
+  - 여러 모듈 사용하는 환경이라면 가급적 from쓰기보단 전체 경로 하는게 나을수도.
+  - 모든 요소를 한번에 import 하는 *는 비추천함
+- import 위치에 따라서 무엇이 호출될지는 달라짐.
+- 'as' 키워드
+  - as 키워드를 사용하여 별칭(alias)를 부여
+  - 두 개 이상의 모듈에서 동일한 이름의 변수, 함수 클래스 등을 가져올 때 이름 충돌을 해결
+```python
+from math import sqrt
+from my_math import sqrt as my_sqrt
+sqrt(4)
+my_sqrt(4)
+
+#############
+import pandas as pd
+import matplotlib.pyplot as plt
+# 별칭을 부여하지 않으면
+df = pandas.DataFrame()
+matplotlib.pyplot.plot(x,y)
+
+# 별칭 쓰면
+df = pd.DataFrame()
+plt.plot(x,y)
+```
 ### 1.2 사용자 정의 모듈
+- 직접 정의한 모듈 생성하기
+```python
+# my_math.py 
+def add(x,y):
+    return x + y
+# sample.py
+import my_math
+print(my_math.add(10,20)) # 30
+```
 ## 2. 파이썬 표준 라이브러리
 ### 2.1 패키지
+- 연관된 모듈들을 하나의 디렉토리에 모아둔 것,
+  - 누가 미리 만들어둔 하나의 코드 꾸러미. 
+- 패키지 만들어보기
+```python
+# my_package/math/my_math.py
+def add(x,y):
+    return x + y
+# my_package/statistics/tools.py
+def mod(x,y):
+    return x % y
+# main.py
+from my_package.math import my_math.py
+# my_package/math/my_math.py 경로 / 대신 . 파일만 import
+from my_package.statistics import tools.py
+
+print(my_math.add(1,2)) # 3
+print(tools.mod(1,2)) # 1
+```
+- 패키지의 종류
+  - PSL(Python Standard Library) 내부 패키지
+    - 파이썬을 설치하면 자동으로 사용 가능한 패키지
+    - 다양한 기능이 있음. 기본적인 기능들
+    - os, sys, random, math 등
+    - 설치 따로 필요없이 import 하면 됨
+  - 외부 패키지
+    - 필요한 기능을 사용하기 위해 직접 설치하는 패키지
+    - 종류는 많고 다양함
+      - 엑셀 조작, ODBC 연결, 웹 데이터 가져오기 등
+    - pip install [module name]
+- 라이브러리는 패키지 상위개념. 다양한 패키
 ## 3. 제어문
+- 코드의 실행 흐름을 제어하는데 사용되는 구문
+- 조건에 따라 코드 블록을 실행하거나 반복적으로 코드를 실행
+```python
+# 조건문
+if score >= 90:
+    message = "축하합니다! 최고입니다!
+elif score >= 70:
+    print("멋져요! 잘 하셨어요!")
+else:
+    print("조금 더 노력하세요!")
+```
 ## 4. 조건문
+- 주어진 조건식을 평가하여 해당 조건이 참(True)인 경우에만 코드 블록을 실행하거나 건너 뜀
+- if / elif / else
+  - 파이썬 조건문에서 사용되는 키워드
+  - 
 ### 4.1 if statement
 
 ## 5. 반복문
+  - 주어진 코드블록을 여러번 반복해서 실행하는 구문
 ### 5.1 for statement
-### 5.2 while statement
-### 5.3 반복 제어
-### 유용한 내장 함수 map & zip
+  - iterable 요소를 하나씩 반환할 수 있는 모든 객체
+  - for문 동작 원리
+    - 리스트 내 첫 항목이 변수에 할당되고 코드블록이 실행
+    - 다음으로 반복 변수에 리스트 2번째 항목이 할당되고 코드블록이 다시 실행
+    - --- 마지막으로 반복 변수에 리스트 마지막 요소가 할당되고 코드부ㅡㄹ록이 실행
+    - 더 이상 반복변수에 할당할 값이 없으면 반복 종료
+```python
+item_list = ['apple', 'banana', 'coconut']
+for item in item_list:
+    print(item)
+### 출력
+apple
+banana
+coconut
+```
+- range 순회
+  - 특정 숫자범위만큼 반복 하고 싶을때 range사용
+```python
+for i in range(5):
+    print(i)
+```
+- 딕셔너리 순회
+  - dict 자료형은 비시퀀스 자료형으로 순서가 보장된건 아님.
+```python
+my_dict = {'x':10, 'y':20}
+for key in my_dict:
+    print(key)
+    print(my_dict[key])
+```
+- 인덱스로 리스트 순회
+  - 리스트의 요소가 아닌 인덱스로 접근
+  - 인덱스를 사용하면 리스트의 원하는 위치에 있는 값을 읽거나 변경 가능
+```python
+numbers = [1,2,3,4,5]
+for i in range(len(numbers)):
+    numbers[i] = numbers[i] * 2
+print(numbers) # [2,4,6,8,10]
+```
+- 중첩된 반복문
+```python
+outers = ['A', 'B']
+inners = ['c', 'd']
 
-## 6. 참고
-### 6.1 모듈 내부 살펴보기
-### 6.2 for-else
-### 6.3 enumerate
+for outer in outers:
+    for inner in inners:
+        print(outer, inner)
+# 출력
+"""
+A c
+A d
+B c
+B d
+"""
+```
+- 중첩 리스트 순회
+  - 안쪽 요소에 접근하려면 바깥 리스트를 순회하면서 중첩 반복문을 사용해 안쪽 반복을 순회
+```python
+elements = [['A', 'B'], ['C','D']]
+for elem in elements:
+    for item in elem:
+        print(item)
+"""
+A
+B
+C
+D
+"""
+```
+### 5.2 while statement
+- 주어진 조건식이 참인동안 코드를 반복해서 실행. 조건이 거짓이 될때까지 반복 실행
+- while 반복문의 원리
+  - 조건식이 참이면 코드 블록 실행, 거짓이면 종료
+  - **코드블록 실행이 마무리되면 다시 조건식 확인**\
+```python
+a = 0
+while a < 3:
+    print(a)
+    a += 1
+print("End")
+
+"""
+0
+1
+2
+끝
+"""
+```
+- 사용자 입력에 따른 반복
+  - while문을 사용한 특정 입력 값에 대한 종료조건 활용
+```python 
+number = int(input('양의 정수를 입력해라'))
+
+while number <= 0:
+    if number < 0:
+        print("음수인데")
+    else:
+        print("0은 양의 정수가 아닙니다.")
+    number = int(input('양의 정수를 입력해라'))
+print("bb")
+```
+- while 문은 반드시 종료 조건이 필요. 무한루프 위험
+- 반복문의 비교
+  - for 
+    - iterable 요소를 하나씩 순회하며 반복
+    - 반복 횟수가 명확하게 정해져 있는 경우 유용
+      - 리스트, 튜플, 문자열같은 시퀀스, 딕셔너리같은 비시퀀스도 처리 가능
+    - range()함수를 이용해 일정 횟수 만큼 반복 작업 수행 가능
+  - while
+    - 주어진 조건이 True일때 동작
+    - 반복 횟수가 불명확하거나 조건에 따라 반복을 종료해야 할 때 유용
+      - 사용자의 입력을 받아서 특정 조건이 충족될때까지 반복하는 경우
+      - 반복 횟수가 미리 정해져 있지 않고, 조건 만족이 반드시 필요한 경우
+### 5.3 반복 제어
+- for, while 은 매 반복마다 본문 내 모든 코드를 실행하지만 때때로 일부만 실행해야 하는 것이 필요할 때가 있음.
+- 반복 제어 키워드
+  - break 
+    - 해당 키워드를 만나게 되면 남은 코드 무시하고 반복 즉시 종료
+    - 반복을 끝내야 할 명확한 조건이 있을때 사용
+```python
+for i in range(10):
+    if i == 5:
+        break
+    print(i) # 0 1 2 3 4
+for i in range(10):
+    if i % 2 == 0: # 2가 되면 다음 코드는 무시하고 처음으로 들어감
+        conitnue 
+    print(i) # 1 3 5 7 9
+```
+  - 반복 제어문은 반드시 반복문 내에서 사용
+  - 중첩 반복의 경우, 전체를 다 끊고 나오는게 아니라 작성된 코드 블록의 반복 흐름만 제어
+- 빈 코드 블록 키워드
+  - pass
+    - 아무 동작도 하지 않음을 명시적으로 표현
+    - 반복 제어가 아닌 코드의 틀을 유지하거나 나중에 내용을 채우기 위한 용도
+    - 코드를 비워두면 오류가 발생하기 때매 pass 사용
+```python
+while True:
+    if condition1:
+        break
+    elif condition2:
+        pass # 빈 코드 나중에 채울수도
+    else:
+        print("pass")
+```
+### 6. 유용한 내장 함수 map & zip
+- map 함수
+  - map(function, iterable)
+  - 반복 가능한 데이터구조의 모든 요소에 function을 적용하고, 그 결과값들을 map object 로 묶어서 반환
+  - 결과를 하나씩 꺼내서 쓸 수 있는 반복가능한 객체 자료형.
+  - 결과를 확인하고 싶으면 list 나 tuple 로 변환해야 함.
+```python
+numbers = [1,2,3]
+result = map(str, numbers)
+print(result) # <map object at 0.000000ddcd>
+print(list(result)) # ['1','2','3']
+```
+- map 함수의 활용
+  - 코테 문제 풀때 input 처럼 문자열 1 2 3 이 있을때 활용
+```python
+numbers1 = input().split()
+print(numbers1) # ['1','2','3']
+
+numbers2 = list(map(int, input().split()))
+print(numbers2) # [1,2,3]
+"""
+int 라는 내장 함수를 쓰고, input.().split()한 객체(str로 잡아온 사용자 입력)을 매개변수로
+"""
+```
+- zip(*iterables)
+  - 여러 개의 반복 가능한 데이터 구조를 묶어서, 같은 위치에 있는 값들을 하나의 tuple 로 만든 뒤, 그것을 모아 zip object 로 반환하는 함수
+```python
+girls = ['jane', 'ashley']
+boys = ['peter', 'jay']
+pair = zip(girls, boys)
+
+print(pair) # <zip object at 0x0000>
+print(list(pair)) # [('jane', 'peter'), ('ashley', 'jay')]
+```
+- zip 함수 활용
+  - 여러 개의 리스트를 동시에 조회할 때
+```python
+kr_scores = [10,20,30,50]
+math_scores = [20,40,50,70]
+en_scores = [40,20,30,50]
+
+for stuedn_scores in zip(kr_scores, math_scores, en_scores ):\
+    print(stuedn_scores)
+"""
+0~3번까지 인덱스 값을 튜플로 묶어서 반환한걸 print 했다.
+(10,20,40)
+(20,40,20)
+(30,50,30)
+(50,70,50)
+"""
+```
+- 2차원 리스트의 컬럼(열) 요소를 동시에 조회할때 실행 결과가 전치행렬과 똑같음
+```python
+scores = [
+    [10,20,30],
+    [40,50,39],
+    [20,40,50],
+]
+for score in zip(*scroes):
+    print(score)
+"""
+(10, 40, 20)
+(20, 50, 40)
+(30, 39, 50)
+"""
+
+```
+## 7. 참고
+### 7.1 모듈 내부 살펴보기
+### 7.2 for-else
+- for 루프가 break 를 만나 중단되지 않고, 끝까지 갔을때 else 블록이 실행됨
+```python
+for i in range(5):
+    if i == 3:
+        break
+else:
+    print("와 끝까지 갔다")
+```
+### 7.3 enumerate
+- iterable 객체의 각 요소에 대해 인덱스와 값을 함께 반환해줌.
+```python
+movies = ['a', 'b', 'c']
+for idx, title in enumerate(movies, start = 1):
+    print(f"{idx}위: {title}")
+```
