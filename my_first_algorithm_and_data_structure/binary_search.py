@@ -2,7 +2,7 @@ from bisect import bisect_left
 
 def binary_search(in_list, n):
     start = 0
-    last = len(in_list)
+    last = len(in_list)-1
     search_count = 0
 
     while True:
@@ -16,10 +16,8 @@ def binary_search(in_list, n):
             else:
                 last = mid -1
 def b_searh_main():
-    test_list = [1,2,3,54,5,231,123]
-    test_list = sorted(test_list)
-    print(test_list)
-    search_idx, work_count = binary_search(test_list,231)
+    test_list = list(range(100))
+    search_idx, work_count = binary_search(test_list,42)
     print(search_idx, work_count)
 
 def bisect_test():

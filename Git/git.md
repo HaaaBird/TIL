@@ -56,7 +56,7 @@ git add Readme.md
 - Staging Area(.git/index)에는 걍 이 파일이 .git/objec 에 저장되어 있는 저 blob을 가리킨다는 참조만 기록(메타데이터만)
 - SHA-1 Hash -> 파일 내용을 기반으로 만든 16진법, 40자짜리 해쉬키. 복원은 불가능. 다만 내용이 한글짜라도 바뀌면 hash값이 완전히 바뀌기 때문에 변경관리에 아주 큰 장점이 있음. 이 성격 이용하기 위해서 SHA-1 사용
 ### 5.2 Commit 을 해 보자
-- git commit -m "commit name" 를 하면 처음엔 안됨. 
+- git commit -m "commit [name]" 를 하면 처음엔 안됨. 
 - git 관리자 설정이 된게 아니기 때문 config 설정 필요
 ```bash
 git config --global user.email [메일주소@.com]
@@ -143,7 +143,7 @@ git revert [commit 의 hash값]
 git revert [hash] 
 ```
 - 하면 바로 Staging -> Repositoy 까지 모두 수정인데
-```hash
+```bash
 git revert --no--commit [hash]
 ```
 - 하면 Staging Area까지만 반영하고 commit은 하지 않음. 

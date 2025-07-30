@@ -89,6 +89,8 @@ string2 = "123heerfds987546ssh"
 print(string1.isalpha()) # True
 print(string2.isalpha()) # False
 ```
+- 문자열 조작 메서드
+
 | 메서드 | 설명 |
 | ----- | --- |
 | s.replace(old, new[, count]) | 바꿀 대상 글자를 새로운 글자로 바꾸어서 반환 |
