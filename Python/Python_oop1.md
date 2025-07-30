@@ -358,7 +358,7 @@ print(
 - 특정 상황에서 자동호출
 - 스페셜, 혹은 매직 메서드라고 함.
 ```python
-
+__str__(self), __len__(self)__, __it__(self, other), etc
 
 ```
     
