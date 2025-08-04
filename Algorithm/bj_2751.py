@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 T = int(input())
 arr = []
 for case in range(T):
