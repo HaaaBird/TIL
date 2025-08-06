@@ -284,6 +284,21 @@ for i in range(3):
       arr[i][j], arr[j][i] = arr[j][i], arr[i][j]
 ```
 ![img](img/Transpose_matrix.png)
+- i, j 크기에 따라 접근하는 원소 비교(N x N)
+![img](img/example_1.png)
+```python
+# 2,3,6 출력하는 코드
+for i in range(N):
+  for j in range(N):
+    if i < 5:
+      print(arr[i][j]) 
+# 대각행렬 접근하는 코드
+for i in range(N):
+  print(arr[i][i])
+# 대각행렬 거꾸로
+for i in range(N):
+  print(arr[i][N-1-i])
+```
 ### 3.1.3 연습문제
 ### 3.1.4 부분집합
 

@@ -13,9 +13,12 @@ class Pair():
                 target_set.append(new_set)
 
     def same_set_check(self, target_set, new_set):
+        # 동일한 set 이 있는지 확인
         return new_set in target_set
 
-    def deck_check(self, new_set):
+    def deck_check(self, new_set): 
+        # 새로 만든 set 이 deck 에 존재하는지 확인. 
+        # set으로 형변환 해 새 set 이 subset으로 존재하는지 확인
         return set(new_set).issubset(self.deck)
 
     def run_check(self):
@@ -40,10 +43,10 @@ class Pair():
             if temp in self.triplet_set:
                 self.baby_gin_set.append([[run],[temp]])
 
-            
+
 if __name__ == "__main__":
     pair = Pair([random.randint(0,9) for _ in range(6)])
-    pair.deck = [3, 3, 3, 4, 5, 6]
+    pair.deck = [4,4,4,4,5,6]
     print(pair.deck)
     pair.run_check()
     pair.triplet_check()
