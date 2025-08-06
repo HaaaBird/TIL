@@ -187,3 +187,108 @@ for i1 in range(1,4):
       - 초과한다면 마지막 추가 동전을 빼고, 1로 돌아가 한 단계 작은 동정르 추가
     - 3단계 해 선택
       - 돈이 일치하는지 확인. 모자라면 1로 돌아가 동전을 고름.
+# 3. List2
+## 3.1 2차원 List
+- 2차원 배열의 선언
+  - 1차원 list를 묶어놓은 list
+  - 2차원 이상의 다차원 list는 차원에 따라 idx를 선언
+  - 2차원 list의 선언: 세로 길이(행의 개수), 가로 길이(열의 개수)를 필요로 함
+  - Python 에서는 데이터 초기화를 통해 변수선언과 초기화가 가능함
+### 3.1.1 2차원 배열
+| arr | 0 | 1 | 2 | 열 |
+| --- | --- | --- | --- | --- |
+| 0 | 0 | 1 | 2 | 3 |
+| 1 | 4 | 5 | 6 | 7 |
+| 행 | | | | |
+
+```python
+N = int(input())
+arr = [list (map(int,input().split())) for _ in range(N)]
+```
+
+```python
+# 지그재그 순회
+for i in range(n):
+  for j in range(m):
+    f(arr[i][j + (m-1-2*j) * (i%2)])  #짝수일땐 j, 홀수일땐 i
+    # 뒤에 (i&2) 의 결과가 홀수일땐 1, 짝수일땐 0이 나옴
+    # 그래서 홀수일땐 (m-1-2*j) 가 살아남고, 짝수일땐 없어짐)
+    # 따라서 홀수일땐 역순으로, 짝수일땐 정상순서로 이동하게 로직이 구성됨
+```
+
+### 3.1.2 델타
+- 델타를 활용한 2차원 배열 탐색
+  - 2차원 배열의 한 좌표에서 4방향의 인접 배열 요소를 탐색하는 방법
+  - 인덱스 i, j인 칸 상하좌우 nj, ni
+
+![img](img/delta.png)
+
+```python
+# 방향 별로 더할 값의 순서를 배열로 선언 위 이미지처럼 오른쪽에서 시계방향으로 순회한다고 하면 더할 값.
+di = [0,1,0,-1] 
+dj = [1,0,-1,0]
+
+for k : 0 -> 3
+  ni = i + di[k]
+  nj = j + dj[k]
+```
+- 델타 배열 예제 코드
+```python
+arr[0...N-1][0...N-1] # N X N 배열
+di = [0,1,0,-1] 
+dj = [1,0,-1,0]
+
+for i in range(0, N-1):
+  for j in range(0, N-1):
+    for d in range(4):
+      ni = i + di[d]
+      nj = j + dj[d]
+      if 0 <= ni < N and 0 <= nj < N:
+        print(arr[ni][nj]) # 오른쪽부터 시계방향으로 회전하며 4개의 주변 좌표의 값을 출력
+
+# 파이썬식 간략한 표현
+
+for i in range(N):
+  for j in range(N):
+    for di, dj in [[0,1],[1,0],[0,-1],[-1,0]]:
+      ni, nj = i + di, j + dj
+```
+- 델타 배열의 응용 
+  - NxN 배열에서 각 원소를 중심으로, 상하좌우 k칸의 합계 중 최대값 
+![img](img/delta_2.png)
+```python
+max_v = 0
+k = 2 # 중심에서 2개 떨어진곳 까지 간다
+for i in range(N):
+  for j in range(N):
+    s = arr[i][j] # 중심
+    for di, dj in [[0,1],[1,0],[0,-1],[-1,0]]: # 빙향정보 순회
+      for c in range(1,k+1): # 떨어진 거리 k까지 반복. 이 코드에선 1,2
+        ni, nj = i+(di*c), j+(dj*c) # 현재위치(델타값 * 떨어진 위치)
+        if 0 <= ni < N and 0 <= nj < N: # 초과 조건
+          s += arr[ni][nj]
+    if max_v < s:
+      max_v = s
+```
+- 전치 행렬
+  - 서로 좌표값 위치 바꾼 행렬(1,0)-> (0,1)
+```python
+# i 행의 좌표 len(arr)
+# j 열의 좌표 len(arr[0])
+
+arr = [[1,2,3],[4,5,6],[7,8,9]] # 3x3 행렬
+
+for i in range(3):
+  for j in range(3):
+    if i < j:
+      arr[i][j], arr[j][i] = arr[j][i], arr[i][j]
+```
+![img](img/Transpose_matrix.png)
+### 3.1.3 연습문제
+### 3.1.4 부분집합
+
+## 3.2 검색과 정렬
+### 3.2.1 순차 검색
+### 3.2.2 이진 검색(Binary search)
+### 3.2.3 선택 정렬(Selection sort) 
+### 3.2.4 셀렉션 알고리즘(Selection Algorithm)
