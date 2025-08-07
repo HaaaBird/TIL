@@ -19,5 +19,6 @@ for i in range(N):
                 ni = i + di[c]
                 nj = j + dj[c]
                 if 0 <= ni < N and 0 <= nj < N and [ni, nj] not in visit:
-                    
+                    pass
+
 
