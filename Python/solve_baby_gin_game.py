@@ -1,4 +1,4 @@
-num = 456789 
+num = 112233 
 c = [0] * 12
 
 for i in range(6):
