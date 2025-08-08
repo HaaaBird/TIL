@@ -1,31 +1,19 @@
 # swea_5432.py
-# 쇠막대기 자르기
-
-# 스택 구조 이용해서 괄호 죄다 잡아넣고
-# 잡혀온 놈 거리가 1이면 레이저
-#
-
-
-
-
+# 쇠막대기 자르기 (스택 활용)
 
 T = int(input())
-
-for case in range(1, 1 + T):
-    works = input()
-    left_count = 0
+for case in range(1, T + 1):
+    works = input().strip()
+    stack = []
     result = 0
-    ll_idx = None
+
     for i in range(len(works)):
-        if works[i] == "(" and works[i+1] == ")":
-            result += left_count
-        elif works[i] == ")" and works[i-1] == "(":
-            pass
-        elif works[i] == ")" and works[i-1] != "(":
-            left_count -= 1
-            result += 1
-        else:
-            left_count += 1
-    print(f"#{case} {result}")
-
-
+        if works[i] == "(":
+            stack.append(works[i])
+        else: # 레이저거나 막대의 끝
+            stack.pop() # 일단 한개 날린다. 레이저던, 쇠막대 끝이던
+            if works[i-1] == "(": # 만난게 레이저면
+                result += len(stack) #스택에 쌓여있는 ( 수만큼 막대기가 생긴다.
+            else: # 레이저가 아니고 다른 막대의 끝이라면
+                result += 1
+    print(f'#{case} {result}')

@@ -21,3 +21,5 @@ while i < 10:
     i += 1 
 if run + tri == 2 : print("Baby Gin")
 else: print("Lose")
+
+str()

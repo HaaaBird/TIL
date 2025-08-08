@@ -2,48 +2,37 @@
 # 스택 수열
 
 import sys
-
 input = sys.stdin.readline
 
 N = int(input())
 target = [int(input()) for _ in range(N)]
 
-stack = []
-result = []
-work_stack = []
 
-flag = False
 s_list = list(reversed(range(1,N+1)))
 
+stack = [0]
+work_stack = []
+result = []
+
+success = False
 stack.append(s_list.pop())
 work_stack.append("+")
-next_push = 1
+target_idx = 0
 
 while True:
-
-    if len(target) == len(result):
-        flag = True
-        break
-
-    target_num = target[len(result)]
-    if target_num > next_push: # 이미 지나간 스택에 있다면, 숫자가 같힌 수라면
-        break # 종료하고 fail
-
-    if len(stack) == 0:
-        stack.append(s_list.pop())
-        work_stack.append("+")
-        next_push += 1
-
-    if stack[-1] == target_num:
-        result.append(stack.pop())
+    if stack[-1] == target[target_idx]:
+        stack.pop()
         work_stack.append("-")
+        target_idx += 1
+    elif target[target_idx] < stack[-1]:
+        break
+    elif target_idx == N:
+        success = True
+        break
     else:
         stack.append(s_list.pop())
         work_stack.append("+")
-        next_push += 1
-
-if not flag:
-    print("NO")
+if success:
+    print("YES")
 else:
-    for work in work_stack:
-        print(work)
+    print("No")

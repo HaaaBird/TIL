@@ -1,6 +1,6 @@
 # List2
 import time
-from pprint import pprint as print
+from pprint import pprint
 
 def get_two_dimensional_array_use_list_comprehension():
     """
@@ -144,7 +144,7 @@ def transposing():
         [11,12,13,14,15],
         [16,17,18,19,20],
         [21,22,23,24,25]]
-    print(arr)
+    pprint(arr)
 
     for i in range(len(arr)):
         for j in range(len(arr)):
@@ -152,7 +152,7 @@ def transposing():
                 arr[i][j], arr[j][i] = arr[j][i], arr[i][j]
     print(" ")
     print("전치 처리 후")
-    print(arr)
+    pprint(arr)
     print("###################")
     print(" ")
 
@@ -196,6 +196,7 @@ if __name__ == "__main__":
     # zigzag_traversal()
     # delta_2()
     # transposing()
+    use_bit_calcul_to_make_subset()
    
    
    
