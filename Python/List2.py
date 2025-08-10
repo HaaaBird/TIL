@@ -185,9 +185,64 @@ def use_bit_calcul_to_make_subset():
     print(" ")
 
     
+def binary_search():
+    arr = [1,2,3,4,5,6,8,9,101]
+    start = 0
+    end = len(arr) - 1
+    target = 6
+    while start <= end:
+        mid = (start + end) // 2
+        if arr[mid] == target:
+            return mid
+        elif target < arr[mid]: # 숫자가 중간보다 작을 때
+            end = mid - 1
+        elif target > arr[mid]:
+            start = mid + 1
+def binary_search_2():
+    arr = [1,2,3,4,5,6,8,9,101]
+    start = 0
+    end = len(arr) - 1
+    target = 5
+    while True:
+        mid = (start + end) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] > target:
+            end = target - 1
+        else:
+            start = mid + 1
+def binary_search_3(arr, key):
+    mid = arr[len(arr)//2]
+    if arr[mid] == key:
+        return mid
+    elif arr[mid] < key:
+        return binary_search_3(arr[mid+1:], key)
+    else:
+        return binary_search_3(arr[:mid-1], key) 
 
+def selection_sort():
+    arr = [2,5,1,5,7,8,0,3,1,3]
+    N = len(arr)
+    for i in range(N-1):
+        min_idx = i
+        for j in range(i+1, N):
+            if arr[min_idx] > arr[j]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    print(arr)
 
+def selection_algorithm():
+    arr = [2,5,1,5,7,8,0,3,1,3]
+    N = len(arr)
+    target_k = 2
 
+    for i in range(0, target_k):
+        min_idx = i
+        for j in range(i+1, N):
+            if arr[min_idx] > arr[j]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    print(arr[target_k-1])
 
 
 if __name__ == "__main__":
@@ -196,13 +251,5 @@ if __name__ == "__main__":
     # zigzag_traversal()
     # delta_2()
     # transposing()
-    use_bit_calcul_to_make_subset()
-   
-   
-   
-   
-   
-   
-   
-   
-    pass
+    # use_bit_calcul_to_make_subset()
+    print(selection_algorithm())
