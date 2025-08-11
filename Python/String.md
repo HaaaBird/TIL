@@ -171,6 +171,18 @@ b = str(3.14)
 ```
 # 2. 패턴 매칭
 ## 2.1 고지식한 패턴 검색
+- 고지식한 알고리즘 Brute Force
+  - 단순한 방법
+  - 본문 문자열을 처음부터 끝까지 순회하며 패턴 내의 문자열을 찾는 것
+```python
+target = list("TTAT")
+arr = list("TTTTAACCA")
+
+for i in range(0, len(arr) - len(target) + 1, 1):
+  if arr[i:i+len(target)] == target:
+    return True
+return False
+```
 ## 2.2 KMP 알고리즘
 ## 2.3 보이어-무어 알고리즘
 ## 2.4 문자열 암호화

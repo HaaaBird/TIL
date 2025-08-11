@@ -160,7 +160,8 @@ def use_bit_calcul_to_make_subset():
     """
     집합 a = [1,2,4,6] 일때, 
     2개 원소, 합이 5인 부분집합이 있는가? 있다면 몇개 있는가?
-    에 대한 일반해 구하는 방법이 없음. 부분적으로, 배열 패턴상 가능한 경우가 있을 수 있으나, 일반해 구하는 방법은 없음.
+    에 대한 일반해 구하는 방법이 없음. 부분적으로, 
+    배열 패턴상 가능한 경우가 있을 수 있으나, 일반해 구하는 방법은 없음.
 
     따라서, 결국 그냥 모든 부분집합을 몽땅 만들어 풀어야 하는 경우가 대부분.
     그 때 비트 연산을 이용하면 빠르게 해당 값을 구할 수 있음. 
@@ -181,68 +182,16 @@ def use_bit_calcul_to_make_subset():
                 # 010 임으로 둘째자리가 둘다 1로 같으니 Pass
                 
                 print(arr[j], end=" ") # 1이라면 arr의 j번째 요소 출력
-        print(" ")
-    print(" ")
+        print()
+    print()
 
-    
 def binary_search():
-    arr = [1,2,3,4,5,6,8,9,101]
-    start = 0
-    end = len(arr) - 1
-    target = 6
-    while start <= end:
-        mid = (start + end) // 2
-        if arr[mid] == target:
-            return mid
-        elif target < arr[mid]: # 숫자가 중간보다 작을 때
-            end = mid - 1
-        elif target > arr[mid]:
-            start = mid + 1
-def binary_search_2():
-    arr = [1,2,3,4,5,6,8,9,101]
-    start = 0
-    end = len(arr) - 1
-    target = 5
-    while True:
-        mid = (start + end) // 2
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] > target:
-            end = target - 1
-        else:
-            start = mid + 1
-def binary_search_3(arr, key):
-    mid = arr[len(arr)//2]
-    if arr[mid] == key:
-        return mid
-    elif arr[mid] < key:
-        return binary_search_3(arr[mid+1:], key)
-    else:
-        return binary_search_3(arr[:mid-1], key) 
+    
+    
+    
+    
+    pass
 
-def selection_sort():
-    arr = [2,5,1,5,7,8,0,3,1,3]
-    N = len(arr)
-    for i in range(N-1):
-        min_idx = i
-        for j in range(i+1, N):
-            if arr[min_idx] > arr[j]:
-                min_idx = j
-        arr[i], arr[min_idx] = arr[min_idx], arr[i]
-    print(arr)
-
-def selection_algorithm():
-    arr = [2,5,1,5,7,8,0,3,1,3]
-    N = len(arr)
-    target_k = 2
-
-    for i in range(0, target_k):
-        min_idx = i
-        for j in range(i+1, N):
-            if arr[min_idx] > arr[j]:
-                min_idx = j
-        arr[i], arr[min_idx] = arr[min_idx], arr[i]
-    print(arr[target_k-1])
 
 
 if __name__ == "__main__":
@@ -251,10 +200,13 @@ if __name__ == "__main__":
     # zigzag_traversal()
     # delta_2()
     # transposing()
-<<<<<<< Updated upstream
-    # use_bit_calcul_to_make_subset()
-    print(selection_algorithm())
-=======
     use_bit_calcul_to_make_subset()
    
->>>>>>> Stashed changes
+   
+   
+   
+   
+   
+   
+   
+    pass
