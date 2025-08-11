@@ -251,5 +251,10 @@ if __name__ == "__main__":
     # zigzag_traversal()
     # delta_2()
     # transposing()
+<<<<<<< Updated upstream
     # use_bit_calcul_to_make_subset()
     print(selection_algorithm())
+=======
+    use_bit_calcul_to_make_subset()
+   
+>>>>>>> Stashed changes
