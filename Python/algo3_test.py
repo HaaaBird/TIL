@@ -61,39 +61,38 @@ def selection_sort(arr):
             if arr[j] < arr[m_idx]:
                 m_idx = j
         arr[i], arr[m_idx] = arr[m_idx], arr[i]
-    print(arr)
 
 
 if __name__ == "__main__":
-    N = 100_000_000
-    arr = [random.randint(1, 10_000_00) for _ in range(N)]
+    N = 100_000 # 10만개
+    N_range = 1_000 # 숫자의 범위는 1~1000
+    arr = [random.randint(1, N_range) for _ in range(N)]
 
-    # 이진 정렬
+    # 머지 정렬
     start = time.time()
-    marge_sort(arr)
+    marge_sort(arr[:])
     end_time = time.time()
-    print("합병정렬 시간:", round(end_time - start, 4))
+    print("합병정렬 시간:", round(end_time - start, 6))
     # 카운팅정렬
     start = time.time()
-    counting_sort(arr, 1000000)
+    counting_sort(arr[:], N_range)
     end_time = time.time()
-    print("카운팅정렬 시간:", round(end_time - start, 4))
+    print("카운팅정렬 시간:", round(end_time - start, 6))
 
     # 파이썬 내장 정렬
     start = time.time()
-    arr.sort()
+    arr[:].sort()
     end_time = time.time()
-    print("내장정렬 시간:", round(end_time - start, 4))
+    print("내장정렬 시간:", round(end_time - start, 6))
 
     # 선택정렬
-    # start = time.time()
-    # selection_sort(arr)
-    # end_time = time.time()
-    # print("카운팅정렬 시간:", round(end_time - start, 2))
-
+    start = time.time()
+    selection_sort(arr[:])
+    end_time = time.time()
+    print("선택정렬 시간:", round(end_time - start, 6))
 
     # 버블정렬
-    # start = time.time()
-    # bubble_sort(arr)
-    # end_time = time.time()
-    # print("버블정렬 시간:", round(end_time - start, 2))
+    start = time.time()
+    bubble_sort(arr[:])
+    end_time = time.time()
+    print("버블정렬 시간:", round(end_time - start, 6))
