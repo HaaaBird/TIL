@@ -22,4 +22,4 @@ for case in range(1, T + 1):
             tree_dict[arr[i]].append(arr[i+1])
 
     sub_tree_size = per_order_traversal(tree_dict, N)
-    print(sub_tree_size)
+    print(f"#{case} {sub_tree_size}")

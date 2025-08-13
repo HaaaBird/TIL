@@ -5,8 +5,6 @@ T = int(input())
 
 for case in range(1, T + 1):
     N = int(input())
-    tree_dict = {i:[] for i in range(N)}
+    tree_dict = {}
     print(tree_dict)
-    
-    
-    pass
+
