@@ -1,38 +1,26 @@
 # boj_1874.py
 # 스택 수열
-
 import sys
 input = sys.stdin.readline
+n = int(input())
+stack = []
+ans = []
+find = True
+now = 1
 
-N = int(input())
-target = [int(input()) for _ in range(N)]
-
-
-s_list = list(reversed(range(1,N+1)))
-
-stack = [0]
-work_stack = []
-result = []
-
-success = False
-stack.append(s_list.pop())
-work_stack.append("+")
-target_idx = 0
-
-while True:
-    if stack[-1] == target[target_idx]:
+for _ in range(n):
+    num = int(input())
+    while now <= num:
+        stack.append(now)
+        ans.append("+")
+        now += 1
+    if stack[-1] == num:
         stack.pop()
-        work_stack.append("-")
-        target_idx += 1
-    elif target[target_idx] < stack[-1]:
-        break
-    elif target_idx == N:
-        success = True
-        break
+        ans.append("-")
     else:
-        stack.append(s_list.pop())
-        work_stack.append("+")
-if success:
-    print("YES")
+        find = False
+if not find:
+    print("NO")
 else:
-    print("No")
+    for i in ans:
+        print(i)
