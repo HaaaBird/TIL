@@ -275,11 +275,104 @@ def DFS(arr, target, start, tree):
 def check_node(v):
   if promising(v):
     if there is a 
-
-
 ```
 ### 5.2 부분집합
+- 어떤 집합의 공집합과 자기 자신을 포함한 모든 부분
+  - 구하고자 하는 어떤 집합의 원소 개수가 n개일때 부분집합의 수는 2^n이다.
+- backtracking 방법으로 powerset 만ㄷ르기
+  - 앞에서 설명한 일반적인 Backtracking 접근 방법을 이용
+  - n개의 원소가 들어있는 집합의 2^n개 부분집합을 만들기
+    - True 또는 False값을 가지는 항목들로 구성된 n개의 배열을 만드는 방법을 이용
+    - 여기서 배열의 i번째 항목은 i번째의 원소가 부분집합의 값인지 아닌지를 나타내는 값.
+- 기본 코드
+```python
+bit = [0,0,0,0]
+for i in range(2): 
+  bit[0] = i # 0번 원소
+  for j in range(2):
+    bit[1] = j # 1번 원소
+    for k in range(2):
+      bit[2] = k # 2번 원소
+      for l in range(2):
+        bit[3] = l # 3번 원소
+        print(bit) # 생성된 부분집합
+```
+- 백트래킹으로 구현하면?
+```python
+def backtrack(a, k, n): # 배열, 결정할 원소, 원소의 수
+  c = [0] * Max_candidates # 후보값을 저장할 리스트 c, 최대 원소 개수
+  if k == n: # 답이면 원하는 작업을 한다.
+    process_solution(a, k)
+  else:
+    ncandidates = construct_candidates(a, k, n, c) # 후보군을 추천하는 함수. 후보의 수를 int 형태로 return
+    for i in range(ncandidates):
+      a[k] = c[i]
+      backtrack(a, k + 1, n) # 재귀 호출
+def construct_candidates(a, k, n, c):
+  c[0] = True
+  c[1] = False
+  return 2
+def process_solution(a, k):
+  for i in range(k):
+    if a[i]:
+      print(num[i], end= ' ')
+  print()
+
+if __name__ == "__main__":
+  max_candidate = 2
+  nmax = 4
+  a = [0] * nmax
+  num = [1,2,3,4]
+  backtrack(a, 0, 3)
+```
 ### 5.3 순열1
+- 백트래킹을 이용한 조건이 있는 순열 생성 방법
+  - 조건이 있다면 백트래킹이 빠르다.
+```python
+def f(i, N, key): # 비트 연산을 몽땅 해서 합이 key 인 걸 고르는 코드
+  global cnt, fcnt
+  if i == N:
+    s = 0
+    for i in range(N):
+      if bit[i] == 1:
+        s += A[i]
+    if s == key: # 부분집합의 합이 key와 같은 경우
+      cnt += 1
+    print(print(bit))
+  else:
+    bit[i] = 1
+    f(i + 1, N)
+    bit[i] = 0
+    f(i+1, N)
+  
+def f1(i, N, s, key): # bit[i]를 결정하는 함수, i-1원소까지 결정된 부분집합의 합.
+  global cnt, fcnt
+  if s == key: # 목표에 도달한 경우
+    cnt += 1
+  elif i == N: # 찾는 값에 도달하진 못했어도, 마지막 원소라면 중단
+    return
+  elif s > key: # 합이 이미 key보다 큰 경우.
+    return 
+    for i in range(N):
+      if bit[i] == 1:
+        s += A[i]
+    if s == key: # 부분집합의 합이 key와 같은 경우
+      cnt += 1
+    print(print(bit))
+  else:
+    bit[i] = 1
+    f(i + 1, N, s + A[i]) # 여기가 다른 부분. A[i] 포함
+    bit[i] = 0 # A[i] 미포함
+    f(i+1, N, s + 0)
+
+A = [1, 2, 3, 4, 5 ,6 ,7 ,8 ,9 ,10]
+N = 10
+bit = [0] * N
+cnt = 0
+fcnt = 0
+f(bit, N)
+print(cnt, fcnt)
+```
 ### 5.4 가지치키
 ### 5.5 순열2
 ### 5.6 분할정복
