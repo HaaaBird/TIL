@@ -1,12 +1,8 @@
 # boj_1463.py
 # iq검사
+import sys
+input = sys.stdin.readline
 
-N = int(input())
+arr = [0, 1, 1, 2, 3, 2, 3]
 
-def mine():
-    pass
-
-
-while True:
-    if (N-1) % 3 == 0:
-        pass
+# 값이 2,3으로 나누어지면

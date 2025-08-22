@@ -39,25 +39,28 @@ delta = [(-1,0), (0, 1), (1, 0), (0, -1)]
 T = int(input())
 for case in range(1, T + 1):
     N, M = map(int, input().split())
-    matrix = [list(map(str, input().strip())) for _ in range(N)]
+    matrix = [input().rstrip() for _ in range(N)]
+    dist = [[-1] * M for _ in range(N)]
+    queue = []
+    for i in range(N):
+        for j in range(M):
+            if matrix[i][j] == "W":
+                queue.append((i, j))
+                dist[i][j] = 0
+    head = 0
+    while head < len(queue):
+        ni = queue[head][0]
+        nj = queue[head][1]
+        head += 1
+        for k in range(4):
+            nni = ni + delta[k][0]
+            nnj = nj + delta[k][1]
+            if 0 <= nni < N and 0 <= nnj < M and dist[nni][nnj] == -1:
+                dist[nni][nnj] = dist[ni][nj] + 1
+                queue.append((nni, nnj))
     all_cnt = 0
-    flag = False
     for i in range(N):
         for j in range(M):
             if matrix[i][j] == "L":
-                queue = [(i, j, 0)]
-                visit = set()
-                while len(queue) != 0:
-                    ni, nj, dist = queue.pop(0)
-                    for k in range(4):
-                        nni = i + delta[k][0]
-                        nnj = j + delta[k][1]
-                        if 0 <= nni < N and 0 <= nnj < M and (nni, nnj) not in visit:
-                            if matrix[nni][nnj] == "W":
-                                flag = True
-                                break
-                            else:
-                                queue.append((nni, nnj, dist + 1))
-                    if not flag:
-                        break
+                all_cnt += dist[i][j]
     print(f"#{case} {all_cnt}")
