@@ -5,11 +5,14 @@ import pprint
 T = int(input())
 for case in range(1, T + 1):
     word = input()
-    N = len(word)
-    matrix = [[0] * (5 * (len(word)-1) + 1) for _ in range(5)]
-    cnt = 0
-    for idx in range(2, len(matrix[0]), 4):
-        matrix[2][idx] = word[cnt]
-        cnt += 1
-
-    pprint.pprint(matrix)
+    fl = '..#..' + '.#..' * (len(word) - 1)
+    sl = '.#.#.' + '#.#.' * (len(word) - 1)
+    tl = f'#.{word[0]}.#'
+    if len(word) != 1:
+        for i in range(1, len(word)):
+            tl += f'.{word[i]}.#'
+    print(fl)
+    print(sl)
+    print(tl)
+    print(sl)
+    print(fl)
