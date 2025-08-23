@@ -12,7 +12,6 @@
 # 최대 양은 10 < 30
 # 걍 완전탐색으로 풀어도 풀리는 문제다. 문제 크기가 작다.
 
-
 # 완전탐색으로 푸는 법
 # 먼저, 가능한 조합을 모두 구한다.
 
@@ -21,24 +20,23 @@
 # 해당 배열을 get_value에 인자로 써서 get_value는 두 사람의 총 수익을 return 하도록 한다.
 # 이후 그 가격을 max 와 비교해서 갱신하고, 최종적으로 모든 경우를 다 비교했다면 출력한다.
 
-
 # 잘못품! 비트 연산도 필요 없음. 붙어있는 2개 고르면 되는거라.
 
 def get_value(arr, C):
     n = len(arr)
     best = 0
     # 부분집합 비트마스크: 0..(1<<n)-1
-    for mask in range(1 << n):
+    for i in range(1 << n):
         total = 0
         value = 0
         ok = True
-        for i in range(n):
-            if mask & (1 << i):
-                total += arr[i]
+        for j in range(n):
+            if i & (1 << j):
+                total += arr[j]
                 if total > C:
                     ok = False
                     break
-                value += arr[i] * arr[i]
+                value += arr[j] * arr[j]
         if ok and value > best:
             best = value
     return best
@@ -48,10 +46,10 @@ T = int(input())
 for _ in range(1, T + 1):
     N, M, C = map(int, input().split())
     matrix = [list(map(int,input().split())) for _ in range(N)]
-    # M크기에 맞는 조합 비트맵 생성
+    # M크기에 맞는 조합 비트마스크 생성
     all_com = []
     for i in range(len(matrix)):
-        for j in range(N - M +1):
+        for j in range(N - M + 1):
             now_arr = matrix[i][j:j + M]
             now_arr.sort(reverse=True)
             add_list = [get_value(now_arr, C), i, j, j + M]

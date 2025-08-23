@@ -73,6 +73,7 @@ if __name__ == "__main__":
     marge_sort(arr[:])
     end_time = time.time()
     print("합병정렬 시간:", round(end_time - start, 6))
+
     # 카운팅정렬
     start = time.time()
     counting_sort(arr[:], N_range)
