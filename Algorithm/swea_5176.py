@@ -18,32 +18,36 @@ N/2번 노드(N이 홀수인 경우 소수점 버림)에 저장된 값을 출력
 다음 줄부터 테스트 케이스의 별로 N이 주어진다. 1<=N<=1000
 [출력]
 각 줄마다 "#T" (T는 테스트 케이스 번호)를 출력한 뒤, 답을 출력한다.
+
+2진 트리 구현해야 하는가?
+
+아니다. N이랑 index로 추론해서 푸는게 가능하다.
+그냥 트리를 중위순회 하면서
+
 """
 
 
-def get_b_tree(arr):
-    n = len(arr)
-    tree = [[None, None] for _ in range(n)]
-
-    def build(lo, hi):
-        if lo > hi:
-            return None
-        mid = (lo + hi + 1) // 2
-        left = build(lo, mid - 1)
-        right = build(mid + 1, hi)
-        tree[mid] = [left, right]
-        return mid
-
-    root = build(0, n - 1)
-    return tree, root
+def in_order(i, n):
+    global k, root_val, mid_val, mid_idx
+    if n < i:
+        return
+    # 왼쪽 먼저 방문
+    in_order(i * 2, n)
+    if i == 1:
+        root_val = k
+    if i == mid_idx:
+        mid_val = k
+    k += 1
+    in_order(i * 2 + 1, n)
 
 
 T = int(input())
 for case in range(1, T + 1):
     N = int(input())
     arr = [i for i in range(1, N + 1)]
-
-    tree, root = get_b_tree(arr)
-    print(tree)
-    print(root)
-
+    k = 1
+    root_val = 0
+    mid_val = 0
+    mid_idx = N // 2
+    in_order(1, N)
+    print(f"#{case} {root_val} {mid_val}")
