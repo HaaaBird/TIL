@@ -2,5 +2,22 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_hw_1_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_hw_1_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_hw_2_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_hw_2_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_1_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_1_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_1_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_1_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_1_5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_1_a" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_1_b" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_1_c" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_2_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_2_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_2_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_2_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WEB/web_assignment/web_ws_2_5" vcs="Git" />
   </component>
 </project>
