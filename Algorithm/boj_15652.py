@@ -1,56 +1,22 @@
 # boj_15652.py
-# N과 M (4)
+# N 과 M(4)
 
 """
-문제
-자연수 N과 M이 주어졌을 때,
-아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
-
-1부터 N까지 자연수 중에서 M개를 고른 수열
-같은 수를 여러 번 골라도 된다.
-고른 수열은 비내림차순이어야 한다.
-길이가 K인 수열 A가 A1 ≤ A2 ≤ ... ≤ AK-1 ≤ AK를 만족하면, 비내림차순이라고 한다.
-
-입력
-첫째 줄에 자연수 N과 M이 주어진다. (1 ≤ M ≤ N ≤ 8)
-
-출력
-한 줄에 하나씩 문제의 조건을 만족하는 수열을 출력한다.
-중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
-
-수열은 사전 순으로 증가하는 순서로 출력해야 한다.
-
-노골적인 백트래킹 조합 만들기 문제.
-근데 오름차순으로 결과가 저장되어야 한다. -> 비트 연산 결과를 0부터 하지 말고(선택안함) 1부터 출발해야 한다.(선택부터)
-
+같은 수를 여러번 골라도 됨.
+그러면 49번 알고리즘에서, 나를 고른걸 따지지 않게 만들면 되는거 아닌가
 """
 
 
-def backtrack(arr, n, m, k):
-    global result_list
-    # 원하는 길이에 도달하면 결과값 출력
-    if k == n:
-        if sum(arr) == m:
-            a = []
-            for i in range(n):
-                if arr[i] == 1:
-                    a.append(i + 1)
-            result_list.append(a)
-
-    else:
-        arr[k] = 1 # 선택
-        backtrack(arr, n, m, k+1)
-        arr[k] = 0
-        backtrack(arr, n, m, k+1)
-
-
-
+def backtrack(start):
+    if len(result_list) == M:
+        print(" ".join(map(str, result_list)))
+        return
+    for i in range(start, N + 1):
+        result_list.append(i)
+        backtrack(i)
+        result_list.pop()
 
 
 N, M = map(int, input().split())
-arr = [0] * N
 result_list = []
-backtrack(arr, N, M, 0)
-
-for arr in result_list:
-    print(" ".join(map(str, arr)))
+backtrack(1)

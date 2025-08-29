@@ -1,29 +1,37 @@
 # boj_15650.py
 # N과 M (2)
 
-import sys
-input = sys.stdin.readline
+"""
+이번 문제의 경우 중복순열을 뺀다는 조건이 들어간다.
 
-def subset(a, k, n, m):
+즉 1,2
+2,1 이런거 하지 않는다는 뜻.
+
+그러면
+
+해당 숫자를 골랐는지 안골랐는지 기억하는 배열을 갱신하면서 문제를 풀면 된다.
+
+
+"""
+def backtrack(arr, k, n, m):
     global result_list
     if k == n:
-        if sum(a) == m:
-            arr = []
+        if sum(arr) == m:
+            array = []
             for i in range(n):
-                if a[i]:
-                    arr.append(i + 1)
-            result_list.append(arr)
+                if arr[i] == 1:
+                    array.append(i+1)
+            result_list.append(array)
     else:
-        a[k] = 0
-        subset(a, k+1, n, m)
-        a[k] = 1
-        subset(a, k+1, n, m)
-if __name__ == "__main__":
-    result_list = []
-    N, M = map(int, input().split())
-    a = [0] * N   # 선택 여부를 기록할 배열
-    subset(a, 0, N, M)
-    result_list.sort()
-    for arr in result_list:
-        print(" ".join(map(str, arr)))
+        arr[k] = 1
+        backtrack(arr, k + 1, n, m)
+        arr[k] = 0
+        backtrack(arr, k + 1, n, m)
 
+
+result_list = []
+N, M = map(int, input().split())
+arr = [0] * N
+backtrack(arr, 0, N, M)
+for n_arr in result_list:
+    print(" ".join(map(str, n_arr)))

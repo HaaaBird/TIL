@@ -16,23 +16,37 @@
 중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
 
 수열은 사전 순으로 증가하는 순서로 출력해야 한다.
+
+백트래킹은 재귀를 통해서 취소가 가능한 구조로 구현하는것. 예를 들어서
+
+dfs 에서 계속 직진하다 말단 노드에 도달하면 스택 맨 위에 정보로 다시 돌아는건데
+백트래킹은 애초부터 재귀로 호출해서
+
+특정 목적에 도달할때 까지 계속 재귀를 타고 내려가다가
+목적에 도달했다면? 정해진 행동을 수행
+
+목적에 도딜함이 불가능하다면 빠꾸
+
+그러면 이런 순열 만들기 문제의 경우엔
+목적에 도달하지 못하는 경우가 없다. 유망성 평가를 할 건덕지가 없다.
+
+그러면 return 조건 자체가 목적에 도달했을때 말곤 없다.
 """
 
 
-def backtracking(arr, N, M):
-    if len(arr) == M:
+def backtrack(arr, n, m):
+    if len(arr) == m:
         print(" ".join(map(str, arr)))
         return
     else:
-        for i in range(1, N + 1):
+        for i in range(1, n + 1):
             if i not in arr:
                 arr.append(i)
-                backtracking(arr, N, M)
+                backtrack(arr, n, m)
                 arr.pop()
 
 
-if __name__ == "__main__":
-    N, M = map(int, input().split())
 
-    arr = []
-    backtracking(arr, N, M)
+N, M = map(int, input().split())
+arr = []
+backtrack(arr, N, M)
