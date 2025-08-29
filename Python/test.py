@@ -1,42 +1,23 @@
-# 최대 힙 만드는 예시
-# 최초는 아무것도 없다.
-# 최대힙은 부모가 자식보다 크다.
-# 처음엔 그냥 넣는다. 2
-# 5를 일단 말단에 넣고 부모랑 비교해본다. 
-# 5가 더 크다. 부모 자식 관계를 바꾼다.
-# 7을 말단에 넣는다.
-# 7과 부모를 비교한다. 7이 더 크다. 5랑 바꾼다.
-# 3을 말단에 추가한다. 
-# 3과 2를 비교한다. 크다. 2와 3을 자리를 바꾼다
-# 4를 추가한다. 4와 3을 비교한다. 4가 더 크다 바꾼다.
-# 6을 추가한다. 6과 부모를 비교해서 크면 올린다.
-
-
-def enq(n):
-    global last, heap
-    last += 1 #마지막 정점 추가
-    heap[last] = n
-
-    c = last
-    p = c // 2 #완전 이진트리 자식 부모 연산방법. 
-    # 부모가 있고, 부모 < 자식 일 경우, 부모와 자식을 교환
-    while p > 0 and heap[p] < heap[c]: # p 가 0이 아니고(root가 아니고) 부모가 자식보다 작으면
-        heap[p], heap[c] = heap[c], heap[p] # 부모 자식간 교환
-        p = c // 2 # 부모 인덱스를 갱신함으로 계속 while 문이 돌아가면서 루트가 되건, 부모보다 작아지던 계속 반복하게 만듬. 
 
 
 
 
+def traversal():
     pass
 
-if __name__ =="__main__":
-    heap = [0] * 100 # 1~99까지 대응
-    last = 0
-    enq(2)
-    enq(5)
-    enq(7)
-    enq(3)
-    enq(4)
-    enq(6)
 
-    print(heap)
+if __name__ == "__main__":
+    T = int(input())
+    for case in range(1, T + 1):
+        E, N = map(int, input().split())
+        arr = list(map(int, input().split()))
+        left = [0] * (E + 1)
+        right = [0] * (E + 1)
+        parent = [0] * (E + 1)
+
+
+        for i in range(E):
+            p = arr[i*2]
+
+        
+        pass

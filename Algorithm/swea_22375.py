@@ -26,26 +26,21 @@ i번 스위치를 조작하면 i번부터 N번까지의 전등의 켜짐/꺼짐 
 (1<=T<=10, 1<=N<=100)
 """
 
-
-def reverse(arr, i):
-    for j in range(len(arr[i:])):
-        if arr[i+j] == 0:
-            arr[i+j] = 1
-        else:
-            arr[i+j] = 0
-
-
 T = int(input())
 for case in range(1, T + 1):
     N = int(input())
-    current = list(map(int, input().split()))
-    target = list(map(int, input().split()))
-
+    ai = list(map(int, input().split()))
+    bi = list(map(int, input().split()))
     cnt = 0
 
     for i in range(N):
-        if current[i] != target[i]:
+        if ai[i] != bi[i]:
             cnt += 1
-            reverse(current, i)
-
+            for idx in range(i, N):
+                if ai[idx] == 1:
+                    ai[idx] = 0
+                else:
+                    ai[idx] = 1
     print(f"#{case} {cnt}")
+
+
