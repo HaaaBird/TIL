@@ -1,0 +1,17 @@
+{% extends "articles/base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'stylesheets/style.css' %}">
+{% block content %}
+<h2>글 목록</h2>
+<a href="{%url 'articles:create' %}">CREATE</a>
+<hr>
+{% for paper in papers %}
+    <p>글 번호: {{paper.pk}}</p>
+    <a href="{% url 'articles:detail' paper.pk %}">글 제목: {{ paper.title }}</a>
+    <p>글 내용: {{paper.content}}</p>
+    <hr>
+{% endfor %}
+{% endblock content %}
+
+
+
