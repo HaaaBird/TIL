@@ -209,5 +209,42 @@ GROUP BY
 ![img](img/SQL3.png)
 # 8. 참고
 ## 8.1 Query
+- 데이터베이스로부터 정보를 요청하는 것
+- 일반적으로 SQL로 작성하는 코드를 쿼리문(SQL문)이라 함
 ## 8.2 NULL 비교
-## 8.3 SQL 표준
+- SQL에서 NULL은 실제 값이 아니라 "값이 없음" 또는 "알 수 없음"을 의미
+  - 때문에 일반적인 등호("=")로 NULL을 비교하면 의도한 대로 동작하지 않음
+- SQL의 3값 논리
+  - 1. TRUE
+  - 2. FALSE
+  - 3. UNKNOWN(알수없음)
+  - 예를 들어 NULL = NULL 의 결과는 TRUE 가 아닌 UNKNOWN이 됨
+  - 이는 두 NULL이 실제 어떤 값을 가지지 않기 때문
+- 값의 부재와 불확실성
+  - NULL은 값이 존재하지 않음을 나타냄으로 특정 값과 동일하다고 볼 수 있음
+  - = 연산자를 쓰면 NULL은 어떤 값과도 비교할 수 없음으로 결과가 UNKNOWN이 되어 기대한 결과를 얻지 못함
+- 명시적 비교: IS와 IS NOT
+  - SQL 표준은 NULL 값을 비교할때 명시적으로 IS NULL 이나 IS NOT NULL 구문을 사용하도록 규정
+  - WHERE column IS NULL은 해당 컬럼에 값이 없음을 정확하게 확인할 수 있도록 해줌
+  - 반대로 WHERE column IS NOT NULL은 은 값이 존재하는 행을 찾음
+- IS와 =비교
+- =
+  - 일반적인 값의 동등성(같음)을 비교할 때 사용
+  - 제한 사항
+    - 만약 비교하는 값 중 하나라도 NULL이면 결과는 UNKNOWN이 됨
+    - 예를 들어 NULL = NULL 의 결과는 TRUE 가 아니라 UNKNOWN
+    - SQL의 3값 논리(참, 거짓, 알 수 없음)체계 떄문에 이런 결과가 발생
+```sql
+SELECT * FROM employees
+WHERE department = 'Salse';
+```
+- IS
+  - NULL과 같은 특별한 값을 비교할 때 사용
+  - 사용처
+    - NULL 비교
+    - Boolean 값 비교
+```sql
+SELECT * FROM employees
+WHERE department IS NULL
+AND is_active IS TRUE;
+```
