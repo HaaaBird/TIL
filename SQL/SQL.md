@@ -655,4 +655,274 @@ admin.site.register(Article)
 admin.site.register(Comment)
 
 ```
-## 4.3 댓글 추가 구현
+
+# 1. Article & User
+## 1.1 모델 관계 설정
+- User 외래 키 정의
+
+```python
+# articles/models.py
+from django.conf import settings
+# User 모델을 직접 import 하지 않는다. 
+# Article 클래스 생성 시점이 User클래스 선언 시점보다 빠르면 참조할 User 모델을 못 찾을 수 있음. 
+# 따라서 설정 끝난 값인 settings에 선언된 내용을 가져오는 것이 좋다.
+
+class Article(models.Model):
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  title = models.CharField(max_length=10)
+  content = models.TextField()
+  created_at = models.DateTimeField(auto_now_add=True)
+  update_at = models.DateTimeField(auto_add=True)
+```
+- User 모델을 참조하는 2가지 방법
+  - settings.AUTH_USER_MODEL
+    - settings.py에서 정의한 AUTH_USER_MODEL 설정 값을 가져옴
+    - 반환 값: accounts.User(문자열 타입으로 리턴)
+    - models.py 에서 User 모델을 참조할 때 주로 사용
+  - get_user_model()
+    - 현재 settings.py에 정의되어 활성화 된 User모델을 가져옴
+    - 반환 값: User.Object(객체)
+    - models.py를 제외한 다른 거의 모든 위치에서 사용
+- Migration
+  - 기존에 테이블이 있는 상황에서 필드를 추가하려고 하기 때문에 발생하는 과정
+  - 기본적으로 모든 필드에는 NOT NULL 제약조건이 들어감. 데이터 없이 새로운 필드를 추가할 수 없음
+  - 경고창에서 1을 누르고 진행하면 값을 직접 입력하게 됨.
+## 1.2 게시글 CREATE
+- 새 게시글 작성시 ArticleForm 출력 변화 확인
+  - 새롭게 추가된 ForeignKey 필드인 User가 보여야 함.
+- User모델에 대한 사용자 입력 창이 나오지만 사용자가 입력해선 안됨
+![img](img/SQL9.png)
+- 기존 ArticleForm에서 사용자가 입력할 수 있는 필드를 변경
+  - 글 작성자는 선택 못하게, 사용자는 제목과 내용만 입력하도록 수정
+```python
+# aritcles/forms.py
+class ArticleForm(forms.ModelForm):
+  class Meta:
+    model = Article
+    fields = ('title', 'content', )# 마지막 쉼표 유의.
+```
+- 게시글 작성 시 작성자 정보가 함께 저장될 수 있도록 save의 commit 옵션 활용
+  - 게시글 작성자는 현재 글을 작성하는 로그인 된 사용자 정보를 저장
+```python
+# articles/views.py
+
+@login_required
+def create(request):
+  if request.method == "POST":
+    form = ArticleForm(request.POST)
+    if form.is_vaild():
+      new_article = form.save(commit=False)
+      new_article.user = request.user
+      new_article.save()
+      return redirect('articles:detail', article.pk)
+    else:
+      ...
+```
+## 1.3 게시글 READ
+- index 페이지에 게시글 작성자 정보 출력하도록 수정
+```html
+<!--articles/index.html-->
+{% for article in articles %}
+<p>작성자: {{ article.user }}</p>
+<p>글 번호: {{ article.pk }}</p>
+<a href="{% url 'articles:detail' article.pk %}">
+  <p>글 제목: {{ article.title }}</p>
+</a>
+<p> 글 내용: {{ article.content }}</p>
+<hr>
+{% end for %}
+```
+## 1.4 게시글 UPDATE
+- 게시글 UPDATE 구현
+```python
+@login_required
+def update(request, pk):
+  article = Article.objects.get(pk=pk)
+  if request.user == article.user:
+    if request.method == "POST":
+      form = ArticleForm(request.POST, instance=article)
+      if form.is_valid():
+        form.save()
+        return redirect('articles:detail', article.pk)
+      else:
+        form = ArticleForm(instance=article)
+    else:
+      return redirect('article:index')
+    context = {
+      'article':article,
+      'form':form,
+    }
+    return render(request, 'articles/update.html', context)
+```
+## 1.5 게시글 DELETE
+- 삭제를 요청하려는 사람과 게시글 작성자를 비교해 본인만 삭제 가능하게 처리
+```python
+# articles/views.py
+
+@login_required 
+def delete(request, pk):
+  article = Article.object.get(pk=pk)
+  if request.user == article.user:
+    article.delete()
+  return redirect('articles:index')
+```
+# 2. Comment & User
+# 2.1 모델 관계 설정
+- User는 여러 개의 댓글을 작성
+- Comment는 한 명의 작성자가 작성
+- Comment 모델 클래스에 User 필드를 참조하도록 외래 키(Foreign Key) 설정
+```python
+# articles/models.py
+
+class Comment(models.Model):
+  article = models.ForeignKey(Article, on_delete=models.CASCADE)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  content = models.CharField(max_length=200)
+  created_at = models.DateTimeField(auto_now_add=True)
+  update_at = models.DateTimeField(auto_add=True)
+```
+# 2.2 댓글 CREATE
+- 댓글 작성 시 작성자 정보가 함께 저장될 수 있도록 작성
+```python
+# articles/views.py
+
+def comment_create(request, pk):
+  article = Article.objects.get(pk=pk)
+  comment_form = CommentForm(request.POST)
+  if comment_form.is_vaild():
+    comment = comment_form.save(commit=False)
+    comment.article = article
+    comment.user = request.user
+    comment.save()
+    return redirect('articles:detail', article.pk)
+```
+# 3. View Decorators
+- View 함수의 동작을 수정하거나 추가 가능을 제공하는데 사용되는 Python 데코레이터
+  - 사전 체크리스트 처럼 동작해 사용자 접근을 보다 안전하고 체계적으로 관리 가능
+  - view decorator는 뷰 함수 위에 붙여서 작동, 코드 흐름을 방해하지 않고 깔끔하게 조건을 설정 가능
+  - 자주 쓰이는 것: 로그인 여부, 권한 검사 HTTP 요청 방식 제한
+- View decorators 종류
+  - Allowed HTTP method
+    - 뷰가 허용하는 http 요청 방식(GET, POST등)을 제한
+  - Conditional view processing
+    - 클라이언트가 보낸 조건을 확인한 후, 조건에 따라 응답을 처리
+  - GZip compression
+    - 서버에서 응답 데이터를 압축
+  - 이 외 다수 공식문서 확인 필요
+## 3.1 Allowed HTTP methods
+- 특정 HTTP method로만 View 함수에 접근할 수 있도록 제한하는 데코레이터
+  - 웹 요청은 GET, POST 등 다양한 요청 방식을 사용하며 각 요청은 고유 목적이 있음
+  - 요청 방식을 제한하면 보안이 강화되고 코드의 역할도 명확하게 분리됨
+  - 해당 데코레이터를 사용하면 View 로직을 보호하면서 사용자에게도 올바른 인터페이스를 제공가능
+- 주요 Allowed HTTP method
+  - require_http_methods(["METHOD1","METHOD2", ...])
+    - 지정된 HTTP method 만 허용
+  - require_safe()
+    - GET과 HEAD method만 허용
+  - require_POST()
+    - POST method 만 허용
+  - 허용되지 않은 method로 요청하는 경우 405(method not Allowd) 오류 반환
+
+- require_http_methods(requset_method_list)
+  - 지정된 HTTP method만 허용
+  - 인자는 list, 해당 list요소는 요청이 허용될 HTTP method 를 문자열(대문자)로 작성
+  - list 에 작성된 method 이외의 method로 요청하면 HttpResponseNotAllowed(405)를 반환
+```python
+from django.views.decorators.http import require_http_methods
+@ require_http_methods(['GET', 'POST'])
+def func(request):
+  pass
+```
+
+- require_safe()
+  - GET과 HEAD method만 허용
+  - GET과 HEAD는 서버 상태를 바꾸지 않조 조회만 수행하기 때문. 
+  - HEAD는 브라우저가 리소스 없이 메타데이터 정보만 조회할때 주로 사용
+  - require_GET 보다 더 포괄적이며 표준 HTTP 클라이언트와 호환성이 높음
+```python
+from django.views.decorators.http import require_safe
+@require_safe
+def func(request):
+  pass
+```
+
+- require_POST()
+  - POST만 허용
+```python
+from django.views.decorators.http import require_POSt
+@require_POST
+def func(request):
+  pass
+```
+
+# 4. ERD
+- 데이터베이스 구조를 시각적으로 표현하는 도구
+![img](img/SQL10.png)
+## 4.1 ERD 구성 요소
+- Entity
+  - 데이터베이스에 저장되는 객체나 개념
+    - 데이터베이스에서 주로 테이블로 표현됨
+  - ex) 게시글, 댓글, 회원
+- Attribute
+  - 엔티티가 가지는 고유한 데이터 항목
+    - 테이블의 컬럼으로 표현됨
+  - ex) 게시글 엔티티의 제목, 내용, 작성일자, 생성일자
+- Relationship
+  - 엔티티 간의 연관성을 나타냄
+    - 테이블 간의 연결된 선으로 표현
+  - ex) 게시글을 '작성'한 회원, 게시글에 '달린' 댓글
+- 개체와 속성 표현 방법
+  - 개체: 회원(User)
+  - 속성: 회원번호(id), 이름(name), 주소(address) 등
+    - 개체가 지닌 속성 및 속성의 데이터 타입
+| name | type | 
+| --- | ---- |
+| id | integer |
+| name | varchar |
+| address | varchar | 
+
+- Cardinality 
+- 한 엔티티와 다른 엔티티 간의 수적 관계를 나타내는 표현
+  - 1대1(one-to-one)
+    - 한 엔티티의 레코드가 다른 엔티티의 하나의 레코드와만 연결되는 관계
+    - 한 사람은 하나의 여권. 여권도 1명에게 하나만
+  - N:1
+    - 여러 레코드가 하나의 엔티티와 연결되며 반대 방햐에서는 하나만 연결되는 관계
+    - ex) 여러 명의 '학생'이 하나의 '학교'
+  - N:M
+    - 양쪽 모두 여러 레코드와 연결되는 관계 
+    - 학생은 여러 과목을 수강 가능, 과목도 여러 학생이 수강
+- Cardinality 표현
+  - 선의 끝 부분에 표시되며 일반적으로 숫자나 기호로 표현
+![img](img/SQL11.png)
+- Cardinality 적용
+  - 회원은 여러 댓글을 작성한다
+  - 각 댓글은 하나의 회원만 존재한다
+![img](img/SQL12.png)
+
+- ERD의 중요성
+  - 데이터베이스 설계의 핵심 도구
+    - 엔티티(테이블), 속성(컬럼) 관계를 명확히 정의함으로서 논리적 데이터 구조를 시각적으로 표현함
+    - 복잡한 비즈니스 로직을 단순화하고 직관적인 다이어그램으로 정리됨
+    - 중복 데이터를 제거하고, 효율적인 저장 구조를 만들 수 있음
+  - 시각적 모델링으로 효과적인 의사소통 지원
+    - 개발자, 기획자, 디자이너 등 다양한 직군이 ERD를 활용해 협업할 수 있음
+    - 요구사항 분석 단계에서 누락된 기능이나 관계를 빠르게 파악 가능
+    - 비전문가에게도 쉽게 시스템 구조를 설명할 수 있음(진짜? 설명해봤냐? 화나네)
+  - 실제 시스템 개발 전 데이터 구조 최적화에 중요
+    - 사전에 데이터 흐름과 연관 관계를 명확히 분석함으로 불필요한 관계나 비효율적인 설계를 방지
+    - 시스템 개발 전에 ERD를 작성함으로써, 이후 DB 구축 단계에서 중대한 구조적 오류를 줄이는데 효과적
+    - 변경이나 유지보수시에도 ERD를 기반으로 안정적으로 수정할 수 있음
+# 5. 참고
+## 5.1 추가 기능 구현
+- 인증된 사용자만 댓글 작성 및 삭제
+```python
+# articles/views.py
+@login_required
+def comments_create(request, pk):
+  pass
+
+@login_required
+def comments_delete(request, article_pk, comment_pk):
+  pass
+```
