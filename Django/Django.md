@@ -1473,7 +1473,7 @@ class User(AbstarctUser):
   pass
 ```
 - django 프로젝트에서 사용하는 기본 User모델을 우리가 작성한 User 모델로 사용할 수 있도록
-- **AUTH_USER_MODE**을 변경
+- **AUTH_USER_MODEL**을 변경
   - 수정 전 값은 auth.User
 - accounts 앱에 작성한 User모델을 기본 모델로 설정
 ```python
