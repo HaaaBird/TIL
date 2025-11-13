@@ -201,3 +201,186 @@ git restore [파일명]
 ```bash
 git restore --staged [파일명]
 ```
+
+
+# 1. Branch
+- Git Branch
+  - 나뭇가지처럼 여러 갈래로 작업 공간을 나누어 독립적으로 작업할 수 있도록 도와주는 Git의 도구
+- Branch 장점
+  - 독립된 개발 환경을 형성하기 때문에 원본(master)에 대해 안전
+  - 하나의 작업으 하나의 브랜치로 나누어 진행됨으로 체계적으로 협업과 개발이 가능
+  - 손쉽게 브랜치를 생성하고 브랜치 사이를 이동할 수 있음
+- 꼭 Branch를 사용해야 할까?
+  - 만약 상용 중인 서비스에 발생한 에러를 해결하려면?
+    - 브랜치를 통해 별도의 작업 공간을 만든다
+    - 브랜치에서 에러가 발생한 버전을 이전 버전으로 되돌리거나 삭제한다
+    - 브랜치는 완전하게 독립되어있어 작업 내용이 master 브랜치에 아무런 영향을 끼치지 못한다
+    - 이후 해결되었다면? 그 내용을 master브랜치에 반영할 수 있다.
+- Master(main)브랜치의 의미와 역할
+  - 기본 브랜치(Default Branch)
+    - 저장소의 초기 상태를 나태내며 일반적으로 프로젝트의 가장 최신 버전 또는 배포 가능한 안정적인 코드
+  - 기준점
+    - 다른 브랜치가 파생되는 기준점으로 사용
+  - 변경사항 통합
+    - 다른 브랜치에서 작업 가능한 기능이나 버그 수정을 완료한 후 코드 리뷰와 테스트를 거쳐 master에 병합
+## 1.1 Branch Command
+- git branch
+  - 브랜치 조회, 생성, 삭제 등 브랜치와 관련된 명령어
+| 명령어 | 기능 |
+| ---- | ---- | 
+| git branch | 브랜치 목록 확인 |
+| git branch -r | 원격 저장소의 브랜치 목록 확인 |
+| git branch <브랜치 이름> | 새로운 브랜치 생성 |
+| git branch -d <브랜치 이름> | 브랜치 삭제(병합된 브랜치만 삭제 가능) |
+| git branch -D <브랜치 이름> | 브랜치 삭제(강제 삭제) | 
+| git switch <다른 브랜치 이름> | 다른 브랜치로 전환 |
+| git switch -c <브랜치 이름> | 새 브랜치 생성 후 전환 |
+| git switch -c <브랜치 이름> <commit ID> | 특정 커밋에서 새 브랜치 생성 후 전환 |
+
+- HEAD
+  - 현재 브랜치나 commit을 가리키는 포인터(현재 내가 바라보는 위치)
+- git switch 주의사항
+  - git switch 하기 전에 Working Directory 파일이 모두 버전 관리가 되고 있는지 반드시 확인해야 한다.
+  - 상황 예시
+    - 1. master 브랜치와 feature브랜치가 존재
+    - 2. feature 브랜치에서 'article.txt'를 생성
+    - 3. git add 하지 않고 git switch master를 실행
+  - 상황 결과   
+    - feature 브랜치에서 생성한 article.txt가 master 브랜치에도 존재하게 됨
+  - 주의사항 정리
+    - 1. Git branch는 독립적인 작업공간을 가지지만 git이 관리하는 파일 트리에 제한됨
+    - 2. git add를 하지 않았던, 즉 Staging area에 한번도 올라가지 않은 새 파일은 git의 버전관리를 받고 있지 않기 때문에 브랜치가 바뀌더라도 계속 유지
+    - 3. 그렇기 때문에 git switch 를 하기 전 working directory의 모든 파일이 버전 관리중인지 확인 필요
+# 2. Branch Scenario
+- 무작정 따라해보기
+  - 1. git-branch-practice 폴더 생성
+  - 2. 생성한 폴더로 이동
+  - 3. vscode 실행
+  - 4. git 저장소 생성
+```bash
+$ mkdir git-branch-practice
+$ cd git-branch-practice
+$ code .
+$ git init
+```
+  - article.txt 생성
+  - 각각 master-1, master-2, master-3 이라는 내용 순서대로 입력하며 commit 3개 생성
+```bash
+$ touch article.txt
+
+# article.txt에 master-1 작성
+$ git add.
+$ git commit -m "master-1"
+
+# article.txt에 master-2 작성
+$ git add.
+$ git commit -m "master-2"
+
+# article.txt에 master-3 작성
+$ git add.
+$ git commit -m "master-3"
+```
+  - master 브랜치의 commit 목록 확인
+```bash
+$ git log --oneline
+2040379 (HEAD -> master) master-3
+31b833e master-2
+846fc87 master-1
+```
+![img](img/Git1.png)
+- commit 진행 방향과 화살표 방향이 다른 이유
+  - commit은 이전 commit 이후에 변경사항만을 기록한 것
+  - 즉, 이전 commit 에 종속되어 생성됨
+  - 일반적으로 화살표 방향을 이전 commit을 가리키도록 표기
+## 2.1 Branch 생성 및 조회
+- 현재 위치(master 브랜치의 최신 commit)에서 login 브랜치를 생성
+- login 브랜치 생성 확인
+```bash
+$ gir branch login
+$ git branch
+  login
+* master
+```
+- commit 기준으로 master와 login브랜치가 위치한 것을 확인
+```bash
+$ git log --oneline 
+2040379 (HEAD -> master, login) master-3
+31b833e master-2
+846fc87 master-1
+```
+- master 브랜치에서 commit 을 하나 더 작성
+- 현재 브랜치와 commit 상태 확인
+```bash
+$ git add .
+$ git commit -m "master-4"
+
+$ git log --oneline 
+915d060 (HEAD -> master) master-4
+2040379 (login) master-3
+31b833e master-2
+846fc87 master-1
+```
+![img](img/Git2.png)
+## 2.2 Branch 이동
+- 현재 브랜치와 commit상태 확인
+  - 이때 login브랜치로 이동하면 article.txt가 변할까?
+```bash
+$ git switch login
+Switched to branch 'login'
+# article.txt 내용이 이전 버전으로 바뀜
+```
+- master branch는 잘 살아 있음
+- 단지 head 가 login으로 변경된것 뿐
+## 2.3 Branch에서 commit 생성
+- login branch 에서 article.txt 아래에 login-1 내용 추가
+- 추가로 test_login.txx 도 생성하고 login-1 내용 추가
+- commit 생성
+- log 에 --graph 명렁어 써서 commit 목록 확인
+```bash
+$ git log --oneline --graph --all
+* 87dd56c (HEAD -> login) login-1
+| * 915d060 (master) master-4
+|/
+* 2040379 master-3
+* 31b833e master-2
+* 846fc87 master-1
+```
+- master 브랜치와 login 브랜치가 다른 갈래로 갈라진걸 확인
+![img](img/Git3.png)
+- git branch 정리
+  - 브랜치의 이동은 HEAD가 특정 브랜치를 가리킨다는 것
+  - 브랜치는 가장 최신 commit 을 가리킴으로 HEAD가 해당 브랜치의 최산 commit을 가리킴
+  - 즉, working directory의 내용도 HEAD가 가리키는 브랜치의 최신 COMMIT 상태로 변화하는 것
+# 3. Git Merge
+- 두 개의 브랜치를 하나로 병합(결합)
+- git merge <병합 브랜치 이름>
+- 병합 전 확인 및 주의사항
+  - 1. 수신 브랜치(병합 브랜치를 가져오고자 하는 브랜치)확인
+    - git branch 명령어를 통해 HEAD가 올바른 수신 브랜치를 가리키는지 확인
+    - 병합 진행 위치는 반드시 수신 브랜치에서 진행되어야 함
+  - 2. 최신 commit 상태 확인
+    - 수신 브랜치와 병합 브랜치 모두 최신상태인지 확인
+- Marge 종류
+  - 1. Fast-Forward Merge
+  - 2. 3-way Merge
+## 3.1 Fast-Forward Merge
+- 브랜치를 "실제로" 병합하는 대신 현재 브랜치 상태를 대상 브랜치 상태로 이동시키는 작업(빨리 감기)
+  - Merge 과정 없이 단순히 브랜치 포인터가 앞으로 이동
+![img](img/Git4.png)
+- 1. fast-forward-practice 폴더 생성
+- 2. 생성한 폴더로 이동
+- 3. vsc 실행
+- 4. git 저장소 생성
+```bash
+$ mkdir fast-forward-practice
+$ cd fast-forward-practice
+$ code .
+$ git init
+```
+## 3.2 3-Way Merge
+## 3.3 Merge Conflict
+
+# 4. Git Workflow
+## 4.1 Feature Branch Workflow
+## 4.2 Git Flow
+## 4.3 Forking Workflow
