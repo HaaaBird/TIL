@@ -1,0 +1,64 @@
+{
+  "name": "welstory-api-wrapper",
+  "version": "0.1.4",
+  "description": "삼성웰스토리 구내식당 API TypeScript 라이브러리 (25년 기준 작동)",
+  "main": "./dist/cjs/main.js",
+  "module": "./dist/esm/main.js",
+  "types": "./dist/types/main.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/main.d.ts",
+      "browser": "./dist/esm/main.js",
+      "import": "./dist/esm/main.js",
+      "require": "./dist/cjs/main.js",
+      "default": "./dist/esm/main.js"
+    }
+  },
+  "scripts": {
+    "build": "rimraf dist && pnpm build:esm && pnpm build:cjs",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "lint": "ts-standard",
+    "lint:fix": "ts-standard --fix"
+  },
+  "keywords": [
+    "welstory",
+    "api",
+    "wrapper",
+    "typescript",
+    "node",
+    "browser",
+    "universal",
+    "cafeteria",
+    "samsung"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false,
+  "author": "Minhyeok Park <pmh_only@pmh.codes>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.14.0",
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.2.1",
+    "rimraf": "^6.0.1",
+    "ts-standard": "^12.0.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  },
+  "optionalDependencies": {
+    "undici": "^7.13.0"
+  },
+  "browser": {
+    "undici": false
+  },
+  "ts-standard": {
+    "ignore": [
+      "dist",
+      "node_modules"
+    ]
+  }
+}

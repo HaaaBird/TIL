@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="ssafy">
+    <p>Message: {{ message }}</p>
+    <div v-html="rawHTML"></div>
+    <div v-bind:id="dynamicId">다이나믹 아이디</div>
+    {{ number + 1 }}
+    <img v-bind:src="imgScr" alt="">
+    <a v-bind:href="myUrl">asdfffffff</a>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const ssafy = createApp({
+      setup() {
+        const message = ref("일반 메시지입니다.")
+        const rawHTML =  ref('<span style="color:blue"> 이 곳은 js 영역에서 작성된 텍스트입니다. </span>')
+        const dynamicId = ref('my-id') // id 태그를 삽입할 수 있음. v-bind를 통해
+        const number = ref(10)
+        const imgScr = ref('https://picsum.photos/200/300')
+        const myUrl = "https://www.naver.com"
+        const dynamicValue = ref(
+        )
+        return {
+          message,
+          rawHTML,
+          dynamicId,
+          number,
+          imgScr,
+          myUrl,
+        }
+      }
+    })
+    ssafy.mount('#ssafy')
+  
+
+  </script>
+</body>
+</html>
